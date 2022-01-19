@@ -5,12 +5,15 @@ const mongoose = require("mongoose")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const res = require("express/lib/response")
+const cors = require("cors")
 
 // Adicionando o express à uma variavel
 const app = express()
 
 // Config JSON response
 app.use(express.json())
+// Config CORS
+app.use(cors())
 
 //Models 
 const User = require("./models/User")
@@ -62,7 +65,7 @@ function checkToken(req, res, next) {
 //Rota de Login de usuário
 app.post("/auth/login", async (req, res) => {
 
-    const {email, password} = req.body
+    const {email, password, _id} = req.body
 
     /*Verifica se o usuário existe E instancia um objeto de usuário referente
     ao email inserido */
@@ -89,7 +92,8 @@ app.post("/auth/login", async (req, res) => {
             }, 
             secret,
         )
-        res.status(200).json({msg: "Autenticação realizada com sucesso", token })
+        
+        res.status(200).json({msg: "Autenticação realizada com sucesso", token, id: user._id})
 
     } catch (error){
         res.status(500).json({msg: error})
