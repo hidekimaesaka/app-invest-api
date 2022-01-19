@@ -146,7 +146,7 @@ const dbPassword = process.env.DB_PASS
 // Tenta se conectar ao banco. Se conseguir abre a porta, se não printa o erro
 mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.kthlt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`)
 .then(() => {
-    app.listen(3001)
+    app.listen(process.env.PORT || 3001)
     console.log("Conectou ao banco com sucesso!")
 })
 .catch((error) => console.log(error))
