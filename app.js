@@ -139,6 +139,45 @@ app.post("/auth/register", async (req, res) => {
 
 })
 
+// Rota de registro de produto
+app.post("/wallet/new/:id", async (req, res) => {
+
+    const product = req.body
+    const id = req.params.id
+    const user = await User.findById(id)
+    
+
+    try {
+        await user.products.push(product)
+        await user.save()
+
+        res.status(201).json({ msg: "Produto cadastrado com sucesso!" })
+    } catch (error) {
+        res.status(404).json({ msg: "Ocorreu um erro inesperado!" })
+    }
+
+}
+)
+
+// Rota de consulta de carteira
+// Rota de registro de produto
+app.get("/wallet/:id", async (req, res) => {
+
+    const id = req.params.id
+    const user = await User.findById(id)
+    
+
+    try {
+        res.status(500).json(user.products)
+
+    } catch (error) {
+        res.status(404).json({ msg: "Ocorreu um erro inesperado!" })
+    }
+
+}
+)
+
+
 // Credenciais do banco de dados (vindas do .env)
 const dbUser = process.env.DB_USER
 const dbPassword = process.env.DB_PASS
