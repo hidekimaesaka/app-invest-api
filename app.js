@@ -189,7 +189,7 @@ app.post("/wallet/delete/:id", async (req, res) => {
     
 
     try {
-        await user.products.pull(product_id)
+        await user.products.remove(product_id)
         await user.save()
 
         res.status(201).json({ msg: "Produto removido com sucesso!" })
