@@ -160,7 +160,6 @@ app.post("/wallet/new/:id", async (req, res) => {
 )
 
 // Rota de consulta de carteira
-// Rota de registro de produto
 app.get("/wallet/:id", async (req, res) => {
 
     const id = req.params.id
@@ -170,6 +169,30 @@ app.get("/wallet/:id", async (req, res) => {
     try {
         res.status(500).json(user.products)
 
+    } catch (error) {
+        res.status(404).json({ msg: "Ocorreu um erro inesperado!" })
+    }
+
+}
+)
+
+//Rota de deletar produto
+app.post("/wallet/delete/:id", async (req, res) => {
+
+    const id = req.params.id 
+
+    const user = await User.findById(id)
+
+    //Deve receber o id do produto, que fica no array Products
+    const product_id = req.body.product
+    
+    
+
+    try {
+        await user.products.pull(product_id)
+        await user.save()
+
+        res.status(201).json({ msg: "Produto removido com sucesso!" })
     } catch (error) {
         res.status(404).json({ msg: "Ocorreu um erro inesperado!" })
     }
