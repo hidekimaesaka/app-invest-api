@@ -143,7 +143,9 @@ app.post("/auth/register", async (req, res) => {
 app.post("/wallet/new/:id", async (req, res) => {
 
     const product = req.body
+    console.log(product)
     const id = req.params.id
+    console.log(id)
     const user = await User.findById(id)
     
 
@@ -167,7 +169,7 @@ app.get("/wallet/:id", async (req, res) => {
     
 
     try {
-        res.status(500).json(user.products)
+        res.status(200).json(user.products)
 
     } catch (error) {
         res.status(404).json({ msg: "Ocorreu um erro inesperado!" })
@@ -199,6 +201,7 @@ app.post("/wallet/delete/:id", async (req, res) => {
 
 }
 )
+
 
 
 // Credenciais do banco de dados (vindas do .env)
